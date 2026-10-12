@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Offline Chess</title><meta name="theme-color" content="#0b1220">
+<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="css/style.css"></head>
+<body><div id="app">
+<header id="top"><button id="back" aria-label="Back" hidden>‹</button><h1 id="title"></h1><button id="gear" aria-label="Settings">⚙</button></header>
+<main>
+<section id="v-home">
+ <div class="hero"><span class="logo" aria-hidden="true">♞</span><div><h2>Offline Chess</h2><p>Play. Learn. Practice. Anywhere.</p></div></div>
+ <nav class="menu" aria-label="Main menu">
+  <button data-v="new" class="m acc"><b>▶</b><span>Play<small>Play vs AI or two-player</small></span></button>
+  <button data-v="games" class="m"><b>📁</b><span>Saved Games<small>Continue your previous games</small></span></button>
+  <button data-v="stats" class="m"><b>📊</b><span>Statistics<small>Track your progress</small></span></button>
+  <button data-v="puzzles" class="m"><b>🧩</b><span>Puzzles<small>Solve and improve</small></span></button>
+  <button data-v="settings" class="m"><b>⚙</b><span>Settings<small>Customize your experience</small></span></button>
+ </nav></section>
+<section id="v-new" hidden>
+ <h3>Game Mode</h3>
+ <div id="modes" class="stack"><button class="opt" data-mode="pva">🤖 Player vs AI</button><button class="opt" data-mode="pvp">👥 Two Players</button><button class="opt" disabled>▦ Custom Position <small>Not available yet</small></button></div>
+ <h3 class="ai">You play as</h3><div id="colors" class="seg ai"><button data-c="w">White</button><button data-c="b">Black</button></div>
+ <h3 class="ai">AI Difficulty</h3>
+ <select id="level" class="ai" aria-label="AI difficulty"><option value="1">1 · Beginner</option><option value="2" selected>2 · Easy</option><option value="3">3 · Medium</option><option value="4">4 · Hard (slower)</option></select>
+ <label class="row"><span>Show legal-move hints<small>Show dots on valid squares</small></span><input type="checkbox" id="hintsOpt" class="sw"></label>
+ <label class="row"><span>Autosave game<small>Automatically save progress</small></span><input type="checkbox" id="autoOpt" class="sw"></label>
+ <button id="start" class="big">▶ Start Game</button>
+ <p class="note">Tap a piece, then a highlighted square. Everything runs on this device.</p></section>
+<section id="v-play" hidden>
+ <div class="pbar" id="topBar"><span class="av" id="topAv"></span><span id="topName"></span><b class="clock" id="topClock"></b></div>
+ <div id="board" class="board" role="group" aria-label="Chess board"></div>
+ <div class="pbar" id="botBar"><span class="av" id="botAv"></span><span id="botName"></span><b class="clock" id="botClock"></b></div>
+ <p id="status" class="status" role="status" aria-live="polite"></p>
+ <div id="promo" class="bar" hidden></div>
+ <div id="playBar" class="actions"><button id="undo"><i>↶</i>Undo</button><button class="newgame"><i>＋</i>New</button><button id="hint"><i>💡</i>Hint</button><button id="resign"><i>⚑</i>Resign</button></div>
+ <div id="finBar" class="bar" hidden><button id="replayBtn">▶ Replay</button><button id="analyzeBtn">Analyze game</button><button class="newgame">New game</button></div>
+ <div id="rpBar" class="bar" hidden><button id="rpPrev" aria-label="Previous move">⏮ Prev</button><button id="rpPlay" aria-label="Play replay">▶ Play</button><button id="rpPause" aria-label="Pause replay">⏸ Pause</button><button id="rpStop" aria-label="Stop replay">⏹ Stop</button><button id="rpNext" aria-label="Next move">Next ⏭</button></div>
+ <div class="card"><h3>Moves</h3><table id="hist"><thead><tr><th>Turn</th><th>White</th><th>Black</th></tr></thead><tbody id="hb"></tbody></table></div>
+ <div id="analysis" class="card" hidden></div></section>
+<section id="v-games" hidden><div id="gtabs" class="seg"><button data-f="all">All</button><button data-f="pva">vs AI</button><button data-f="pvp">Two Players</button></div><ul id="glist" class="list"></ul></section>
+<section id="v-stats" hidden><div id="stbox"></div></section>
+<section id="v-puzzles" hidden>
+ <div id="ptabs" class="seg"><button data-f="All">All</button><button data-f="Easy">Easy</button><button data-f="Medium">Medium</button><button data-f="Hard">Hard</button></div>
+ <p id="pempty" class="note" hidden>No puzzles in this level yet. Add some in <code>data/puzzles.js</code>.</p>
+ <div id="pcard" class="card"><div class="ptop"><b id="ptitle"></b><span id="plevel" class="badge"></span></div>
+  <div id="pboard" class="board" role="group" aria-label="Puzzle board"></div><p id="pmsg" role="status" aria-live="polite"></p>
+  <div class="bar"><button id="pPrev" aria-label="Previous puzzle">‹</button><button id="pRestart" class="acc grow">Restart puzzle</button><button id="pNext" aria-label="Next puzzle">›</button></div></div></section>
+<section id="v-settings" hidden>
+ <h3>Appearance</h3><div id="themes" class="seg"><button data-t="dark">🌙 Dark</button><button data-t="light">☀ Light</button><button data-t="system">🖥 System</button></div>
+ <label class="row"><span>Show legal-move hints<small>Dots on squares a selected piece can reach</small></span><input type="checkbox" id="setHints" class="sw"></label>
+ <label class="row"><span>Animate piece movement<small>Turn off to reduce motion</small></span><input type="checkbox" id="setAnim" class="sw"></label>
+ <label class="row"><span>Board coordinates<small>Show a–h and 1–8</small></span><input type="checkbox" id="setCoords" class="sw"></label>
+ <label class="row"><span>Sounds<small>A short click on each move</small></span><input type="checkbox" id="setSound" class="sw"></label>
+ <label class="row"><span>Piece style</span><select id="setPiece"><option value="modern">Modern</option><option value="classic">Classic</option></select></label>
+ <label class="row"><span>Board theme</span><select id="setBoard"><option value="classic">Classic</option><option value="walnut">Walnut</option><option value="forest">Forest</option></select></label>
+ <h3>Backup</h3><p class="note">Downloads all saved games, stats and settings as a JSON file. Import is not implemented yet.</p>
+ <button id="export">Export backup</button> <button id="resetS">↺ Reset all settings</button></section>
+</main></div>
+<script src="js/chess.js"></script><script src="js/db.js"></script><script src="data/puzzles.js"></script><script src="js/app.js"></script>
+</body></html>
