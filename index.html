@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Offline Chess</title><meta name="theme-color" content="#4a2f1a">
+<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header><h1>♞ Offline Chess</h1>
+<nav aria-label="Main"><button data-v="play">Play</button><button data-v="games">Saved games</button><button data-v="stats">Stats</button><button data-v="puzzles">Puzzles</button><button data-v="settings">Settings</button></nav></header>
+<main>
+<section id="v-play"><div class="play">
+ <div id="board" class="board" role="group" aria-label="Chess board"></div>
+ <div class="side">
+  <div id="setup" class="card"><h2>New game</h2>
+   <p class="note">Tap a piece, then a destination square. Everything runs on this device and games autosave.</p>
+   <label>Mode <select id="mode"><option value="pva">Player vs AI</option><option value="pvp">Player vs Player (same device)</option></select></label>
+   <label class="ai">You play <select id="color"><option value="w">White</option><option value="b">Black</option></select></label>
+   <label class="ai">AI level <select id="level"><option value="1">1 · Beginner</option><option value="2" selected>2 · Easy</option><option value="3">3 · Medium</option><option value="4">4 · Hard (slower)</option></select></label>
+   <label><input type="checkbox" id="hintsOpt" checked> Show legal-move hints (dots on squares the selected piece can reach)</label>
+   <button id="start">Start game</button></div>
+  <div id="game" class="card" hidden>
+   <p id="status" class="status" role="status" aria-live="polite"></p>
+   <div id="promo" class="bar" hidden></div>
+   <div id="playBar" class="bar"><button id="resign">Resign</button><button class="newgame">New game</button></div>
+   <div id="finBar" class="bar" hidden><button id="replayBtn">▶ Replay</button><button id="analyzeBtn">Analyze game</button><button class="newgame">New game</button></div>
+   <div id="rpBar" class="bar" hidden><button id="rpPrev" aria-label="Previous move">⏮ Prev</button><button id="rpPlay" aria-label="Play replay">▶ Play</button><button id="rpPause" aria-label="Pause replay">⏸ Pause</button><button id="rpStop" aria-label="Stop replay">⏹ Stop</button><button id="rpNext" aria-label="Next move">Next ⏭</button></div>
+   <h3>Moves</h3>
+   <table id="hist"><thead><tr><th>Turn</th><th>White</th><th>Black</th></tr></thead><tbody id="hb"></tbody></table>
+  </div>
+  <div id="analysis" class="card" hidden></div>
+ </div></div></section>
+<section id="v-games" hidden><h2>Saved games</h2><ul id="glist" class="list"></ul></section>
+<section id="v-stats" hidden><h2>Stats &amp; points</h2>
+ <p class="note">Points: <b>+20</b> per win, <b>−5</b> per loss, <b>0</b> per draw. Each finished game is counted once. In Player vs Player, a decisive game gives +20 to the winning seat and −5 to the other.</p>
+ <div id="stbox"></div><p><b id="total"></b></p></section>
+<section id="v-puzzles" hidden><h2>Puzzles</h2>
+ <p class="note">Sample set (3 puzzles). Add more in <code>data/puzzles.js</code> — see README.</p>
+ <ul id="plist" class="list"></ul><p id="pmsg" role="status" aria-live="polite"></p><div id="pboard" class="board" role="group" aria-label="Puzzle board"></div></section>
+<section id="v-settings" hidden><h2>Settings</h2>
+ <label><input type="checkbox" id="setHints"> Show legal-move hints</label>
+ <label><input type="checkbox" id="setAnim"> Animate piece movement (turn off to reduce motion)</label>
+ <h3>Backup</h3><p class="note">Downloads all saved games, stats and settings as a JSON file.</p>
+ <button id="export">Export backup</button>
+ <p class="note">Import is not implemented yet (placeholder: backups are for safekeeping only).</p></section>
+</main>
+<script src="js/chess.js"></script><script src="js/db.js"></script><script src="data/puzzles.js"></script><script src="js/app.js"></script>
+</body></html>
